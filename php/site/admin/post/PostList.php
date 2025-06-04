@@ -1,5 +1,5 @@
 <?php
-include "./db.class.php";
+include "../db.class.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -54,7 +54,7 @@ if (!empty($_POST)) {
                 <div class="row">
                     <div class="col mt-4">
                         <button type="submit" class="btn btn-primary">Buscar</button>
-                        <a href="./UsuarioForm.php" class="btn btn-secondary">Cadastrar</a>
+                        <a href="./PostList.php" class="btn btn-secondary">Cadastrar</a>
                     </div>
                 </div>
 
