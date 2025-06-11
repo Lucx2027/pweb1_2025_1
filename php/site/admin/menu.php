@@ -7,13 +7,13 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="./index.php">Inicio</a>
+          <a class="nav-link active" aria-current="page" href="./index.php">Início</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="./usuario/UsuarioList.php">Usuario</a>
+          <a class="nav-link" href="../usuario/UsuarioList.php">Usuário</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="./post/PostList.php">Post</a>
+          <a class="nav-link" href="../post/PostList.php">Post</a>
         </li>
       </ul>
     </div>

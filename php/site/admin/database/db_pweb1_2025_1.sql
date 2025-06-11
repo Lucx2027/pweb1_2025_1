@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS `usuario` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-INSERT INTO 'categoria' ('id', 'nome') VALUES
+INSERT INTO 'categoria' ('nome') VALUES
   (1, 'Esporte'),
   (2, 'Politica'),
-  (3, 'Gerais'),
+  (3, 'Gerais')

@@ -12,11 +12,9 @@
 </head>
 
 <body>
-
     <?php
-        include_once "./menu.php";
+        include "../menu.php";
     ?>
 
-<body>
     <div class="container mt-5">
         <div class="row">

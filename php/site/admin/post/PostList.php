@@ -1,20 +1,6 @@
 <?php
 include "../db.class.php";
-?>
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
-</head>
-
-<?php
+include "../header.php";
 
 $db = new db('usuario');
 
@@ -30,19 +16,16 @@ if (!empty($_POST)) {
 
 ?>
 
-<body>
-    <div class="container">
-        <div class="row">
-            <h3>Listagem Usuário</h3>
-            <!-- http://localhost/pweb1_2025_1/php/site/admin/UsuarioList.php -->
-            <form action="./UsuarioList.php" method="post">
+
+            <h3>Listagem Postagem</h3>
+            <!-- http://localhost/pweb1_2025_1/php/site/admin/PostList.php -->
+            <form action="./PostList.php" method="post">
 
                 <div class="row">
                     <div class="col-md-2">
                         <select name="tipo" class="form-select">
-                            <option value="nome">Nome</option>
-                            <option value="cpf">CPF</option>
-                            <option value="telefone">Telefone</option>
+                            <option value="titulo">Titulo</option>
+                            <option value="status">Status</option>
                         </select>
                     </div>
 
@@ -66,31 +49,38 @@ if (!empty($_POST)) {
                 <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Nome</th>
-                        <th scope="col">CPF</th>
-                        <th scope="col">Telefone</th>
-                        <th scope="col">Email</th>
+                        <th scope="col">Titulo</th>
+                        <th scope="col">Data Publicação</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Categoria</th>
                         <th scope="col">Ação</th>
                         <th scope="col">Ação</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php
+                    $dbCategoria = new db('categoria');
+
                     foreach ($dados as $item) {
+
+                        $data_publicacao = date('d/m/Y H:i', 
+                             strtotime($item->data_publicacao));
+                        $categoria = $dbCategoria->find($item->categoria_id);
+
                         echo "
                         <tr>
                             <th scope='row'>$item->id</th>
-                            <td>$item->nome</td>
-                            <td>$item->cpf</td>
-                            <td>$item->telefone</td>
-                            <td>$item->email</td>
+                            <td>$titulo</td>
+                            <td>$data_publicacao</td>
+                            <td>$status</td>
+                            <td>$categoria_id</td>
                             <td>
-                                <a href='./UsuarioForm.php?id=$item->id'>Editar</a>
+                                <a href='./PostForm.php?id=$item->id'>Editar</a>
                             </td>
                             <td>
                                 <a 
                                     onclick='return confirm(\"Deseja Excluir?\")'
-                                    href='./UsuarioList.php?id=$item->id'>Deletar</a>
+                                    href='./PostList.php?id=$item->id'>Deletar</a>
                             </td>
                         </tr>
                         ";
@@ -99,15 +89,7 @@ if (!empty($_POST)) {
                 </tbody>
             </table>
         </div>
-    </div>
+<?php
 
-
-
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
-        crossorigin="anonymous"></script>
-
-</body>
-
-</html>
+include_once "../footer.php";
+?>
