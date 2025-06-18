@@ -1,7 +1,7 @@
 <?php
-include "../db.class.php";
+include "./db.class.php";
 
-include_once "../header.php";
+include_once "./header.php";
 
 
 $db = new db('usuario');
@@ -15,55 +15,36 @@ if (!empty($_POST)) {
     $data = (object) $_POST; //converte o vetor para objeto
 
     //função trim remove espaços em branco do inicio e fim da string, 
-    if (empty(trim($_POST['nome']))) {
-        $errors[] = "<li>O nome é obrigatorio</li>";
-    }
-
-    if (empty(trim($_POST['email']))) {
-        $errors[] = "<li>O email é obrigatorio</li>";
-    }
-
-    if (empty(trim($_POST['cpf']))) {
-        $errors[] = "<li>O cpf é obrigatorio</li>";
-    }
-
-    if (empty(trim($_POST['telefone']))) {
-        $errors[] = "<li>O telefone é obrigatorio</li>";
-    }
-
     if (empty(trim($_POST['login']))) {
         $errors[] = "<li>O login é obrigatorio</li>";
     }
 
     if (empty(trim($_POST['senha']))) {
-        $errors[] = "<li>A senha é obrigatoria</li>";
+        $errors[] = "<li>O senha é obrigatorio</li>";
     }
 
     if (empty($errors)) {
         try {
-            if ($_POST['senha'] === $_POST['c_senha']) {
+            $result =  $db->login($_POST);
 
-                $_POST['senha'] = password_hash(
-                    $_POST['senha'],PASSWORD_BCRYPT);
-                unset($_POST['c_senha']);
+            if ($result !== "error") {
 
-                $db->store($_POST);
-                $success = "Registro criado com sucesso!";
-            
+                session_start();
+
+                $_SESSION['login'] = $result->login;
+                $_SESSION['nome'] = $result->nome;
+                $success = "Logado com sucesso!";
+
                 echo "<script>
-                    setTimeout(
-                        ()=> window.location.href = 'home.php', 1500
-                    )
-                </script>";
-            } else {
-                $errors[] = "<li>A senha não coincidem. Tente novamente</li>";
-            } 
-               
+                        setTimeout(
+                            ()=> window.location.href = 'home.php', 1500
+                        )
+                        </script>";
+            }
         } catch (Exception $e) {
             $errors[] = $e->getMessage();
         }
     }
-
 }
 
 if (!empty($_GET['id'])) {
@@ -97,56 +78,28 @@ if (!empty($_GET['id'])) {
     </div>
 <?php } ?>
 
-<h3>Formulário Usuário</h3>
-<!-- http://localhost/pweb1_2025_1/php/site/admin/UsuarioForm.php -->
+<h3>Login - SIG Blog</h3>
+<!-- http://localhost/pweb1_2025_1/php/site/admin/usuario/Login.php -->
 <form action="" method="post">
-    <input type="hidden" name="id" value="<?= $data->id ?? '' ?>">
-
     <div class="row">
-        <div class="col-md-6">
-            <label for="" class="form-label">Nome</label>
-            <input type="text" name="nome" value="<?php echo $data->nome ?? '' ?>" class="form-control">
-        </div>
-
-        <div class="col-md-6">
-            <label for="" class="form-label">Email</label>
-            <input type="email" name="email" value="<?= $data->email ?? '' ?>" class="form-control">
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-6">
-            <label for="" class="form-label">CPF</label>
-            <input type="text" name="cpf" value="<?= $data->cpf ?? '' ?>" class="form-control">
-        </div>
-        <div class="col-md-6">
-            <label for="" class="form-label">Telefone</label>
-            <input type="text" name="telefone" value="<?= $data->telefone ?? '' ?>" class="form-control">
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-6">
-            <label for="" class="form-label">Login</label>
-            <input type="text" name="login" value="<?= $data->cpf ?? '' ?>" class="form-control">
-        </div>
-        <div class="col-md-6">
-            <label for="" class="form-label">Senha</label>
-            <input type="password" name="senha" value="<?= $data->senha ?? '' ?> "class="form-control">
-        </div>
         <div class="col-md-4">
-            <label for="" class="form-label">Repetir Senha</label>
-            <input type="password" name="c_senha" class="form-control">
+            <label for="" class="form-label">Login</label>
+            <input type="text" name="login" value="<?= $data->login ?? '' ?>" class="form-control">
         </div>
-        
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <label for="" class="form-label">Senha</label>
+            <input type="password" name="senha" value="<?= $data->senha ?? '' ?>" class="form-control">
+        </div>
     </div>
 
     <div class="row">
         <div class="col mt-4">
             <button type="submit" class="btn btn-primary">
-                Salvar
+                Logar
             </button>
-            <a href="./login.php" class="btn btn-secondary">Voltar</a>
+            <a href="./index.php" class="btn btn-secondary">Voltar</a>
         </div>
     </div>
 
@@ -155,6 +108,6 @@ if (!empty($_GET['id'])) {
 
 <?php
 
-include_once "../footer.php";
+include_once "./footer.php";
 
 ?>

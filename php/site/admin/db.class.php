@@ -32,7 +32,6 @@ class db
             );
 
             return $conn;
-
         } catch (PDOException $e) {
             echo "Erro: " . $e->getMessage();
         }
@@ -84,7 +83,6 @@ class db
 
         $st = $conn->prepare($sql);
         $st->execute($arrayDados);
-
     }
 
     public function update($dados)
@@ -163,11 +161,22 @@ class db
         $st->execute([$dados['login']]);
 
         $result = $st->fetchObject();
-
-        if (password_verify($dados['senha'],$result->senha)) {
+        //   var_dump($result, $dados['senha']);
+        //   exit;
+        if (password_verify($dados['senha'], $result->senha)) {
             return $result;
         } else {
             return "error";
+        }
+    }
+
+    function checkLogin()
+    {
+        session_start();
+
+        if (empty($_SESSION['login'])) {
+            session_destroy();
+            header('Location: ../Login.php?error=Sessao Expirada!');
         }
     }
 }
