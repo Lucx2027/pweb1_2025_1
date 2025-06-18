@@ -35,6 +35,8 @@ $db->checkLogin();
                                 Gerenciar Usuários</a>
                         </div>
                     </div>
+
+                    <a href="./Login.php?logout=true" class="btn btn-warning nav-link">Sair</a>
                 </div>
             </div>
         </div>

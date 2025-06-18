@@ -49,7 +49,6 @@ if (!empty($_POST)) {
             $errors[] = $e->getMessage();
         }
     }
-
 }
 
 if (!empty($_GET['id'])) {
@@ -96,11 +95,11 @@ if (!empty($_GET['id'])) {
             <select name="categoria_id" class="form-select">
                 <?php
                 foreach ($categorias as $categoria) {
-                    ?>
+                ?>
                     <option value="<?= $categoria->id ?>">
                         <?= $categoria->nome ?>
                     </option>
-                    <?php
+                <?php
                 }
                 ?>
             </select>
@@ -111,8 +110,7 @@ if (!empty($_GET['id'])) {
     <div class="row">
         <div class="col-md-6">
             <label for="data_publicacao" class="form-label">Data Publicação</label>
-            <input type="date" name="data_publicacao" class="form-control" value="<?= $data->data_publicacao ?? '' ?>"
-                class="form-control">
+            <input type="date" name="data_publicacao" class="form-control" value="<?= $data->data_publicacao ?? '' ?>" class="form-control">
         </div>
         <div class="col-md-6">
 
@@ -132,10 +130,10 @@ if (!empty($_GET['id'])) {
 
     <div class="row">
         <div class="col mt-4">
-            <button type="submit" class="btn btn-primary">
-                <?= !empty($_GET['id']) ? "Editar" : "Salvar" ?>
+            <button type="submit" class="btn btn-success">
+                <i class="fa-solid fa-floppy-disk"></i> <?= !empty($_GET['id']) ? "Editar" : "Salvar" ?>
             </button>
-            <a href="./PostList.php" class="btn btn-secondary">Voltar</a>
+            <a href="./PostList.php" class="btn btn-primary"> <i class="fa-solid fa-arrow-left"></i> Voltar</a>
         </div>
     </div>
 

@@ -3,7 +3,6 @@ include "../db.class.php";
 
 include_once "../header.php";
 
-
 $db = new db('usuario');
 $data = null;
 $errors = [];
@@ -36,7 +35,7 @@ if (!empty($_POST)) {
     }
 
     if (empty(trim($_POST['senha']))) {
-        $errors[] = "<li>A senha é obrigatoria</li>";
+        $errors[] = "<li>O senha é obrigatorio</li>";
     }
 
     if (empty($errors)) {
@@ -44,26 +43,28 @@ if (!empty($_POST)) {
             if ($_POST['senha'] === $_POST['c_senha']) {
 
                 $_POST['senha'] = password_hash(
-                    $_POST['senha'],PASSWORD_BCRYPT);
+                    $_POST['senha'],
+                    PASSWORD_BCRYPT
+                );
                 unset($_POST['c_senha']);
 
+                //  var_dump($_POST);
+                // exit;
                 $db->store($_POST);
                 $success = "Registro criado com sucesso!";
-            
+
                 echo "<script>
                     setTimeout(
-                        ()=> window.location.href = 'home.php', 1500
+                        ()=> window.location.href = '../Login.php', 1500
                     )
                 </script>";
             } else {
                 $errors[] = "<li>A senha não coincidem. Tente novamente</li>";
-            } 
-               
+            }
         } catch (Exception $e) {
             $errors[] = $e->getMessage();
         }
     }
-
 }
 
 if (!empty($_GET['id'])) {
@@ -126,30 +127,28 @@ if (!empty($_GET['id'])) {
     </div>
 
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-4">
             <label for="" class="form-label">Login</label>
-            <input type="text" name="login" value="<?= $data->cpf ?? '' ?>" class="form-control">
+            <input type="text" name="login" value="<?= $data->login ?? '' ?>" class="form-control">
         </div>
-        <div class="col-md-6">
+        <div class="col-md-4">
             <label for="" class="form-label">Senha</label>
-            <input type="password" name="senha" value="<?= $data->senha ?? '' ?> "class="form-control">
+            <input type="password" name="senha" value="<?= $data->senha ?? '' ?>" class="form-control">
         </div>
         <div class="col-md-4">
             <label for="" class="form-label">Repetir Senha</label>
             <input type="password" name="c_senha" class="form-control">
         </div>
-        
     </div>
 
     <div class="row">
         <div class="col mt-4">
-            <button type="submit" class="btn btn-primary">
-                Salvar
+            <button type="submit" class="btn btn-success">
+                <i class="fa-solid fa-floppy-disk"></i> Salvar
             </button>
-            <a href="./login.php" class="btn btn-secondary">Voltar</a>
+            <a href="../Login.php" class="btn btn-primary"> <i class="fa-solid fa-arrow-left"></i> Voltar</a>
         </div>
     </div>
-
 </form>
 
 

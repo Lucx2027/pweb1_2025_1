@@ -22,9 +22,8 @@ if (!empty($_POST)) {
     if (empty(trim($_POST['senha']))) {
         $errors[] = "<li>O senha é obrigatorio</li>";
     }
-
-    if (empty($errors)) {
-        try {
+    try {
+        if (empty($errors)) {
             $result =  $db->login($_POST);
 
             if ($result !== "error") {
@@ -40,24 +39,21 @@ if (!empty($_POST)) {
                             ()=> window.location.href = 'home.php', 1500
                         )
                         </script>";
+            } else {
+                $errors[] = "<li>Login ou senha errado, tente novamente!</li>";
             }
-        } catch (Exception $e) {
-            $errors[] = $e->getMessage();
         }
+    } catch (Exception $e) {
+        $errors[] = $e->getMessage();
     }
 }
 
-if (!empty($_GET['id'])) {
-    $data = $db->find($_GET['id']);
+if (!empty($_GET['logout'])) {
+    session_start();
+    session_destroy();
 }
 
-//serve para depurar o codigo, ver o que tem dentro da variavel
-//var_dump($data, $_GET['id']);
-//para a execução do codigo na linha onde foi colocada
-//exit;
 ?>
-
-
 
 <?php if (!empty($errors)) { ?>
     <div class="alert alert-danger">
@@ -78,32 +74,35 @@ if (!empty($_GET['id'])) {
     </div>
 <?php } ?>
 
-<h3>Login - SIG Blog</h3>
 <!-- http://localhost/pweb1_2025_1/php/site/admin/usuario/Login.php -->
-<form action="" method="post">
-    <div class="row">
+<div class="container vh-100 d-flex align-items-center justify-content-center">
+    <div class="row w-100 justify-content-center">
         <div class="col-md-4">
-            <label for="" class="form-label">Login</label>
-            <input type="text" name="login" value="<?= $data->login ?? '' ?>" class="form-control">
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-4">
-            <label for="" class="form-label">Senha</label>
-            <input type="password" name="senha" value="<?= $data->senha ?? '' ?>" class="form-control">
-        </div>
-    </div>
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="text-center mb-4">Login - SIG Blog</h4>
+                    <form action="./Login.php" method="post">
+                        <div class="md-3">
+                            <label for="" class="form-label">Login</label>
+                            <input type="text" name="login" value="<?= $data->login ?? '' ?>" class="form-control">
+                        </div>
+                        <div class="md-3">
+                            <label for="" class="form-label">Senha</label>
+                            <input type="password" name="senha" value="<?= $data->senha ?? '' ?>" class="form-control">
+                        </div>
 
-    <div class="row">
-        <div class="col mt-4">
-            <button type="submit" class="btn btn-primary">
-                Logar
-            </button>
-            <a href="./index.php" class="btn btn-secondary">Voltar</a>
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fa-solid fa-right-to-bracket"></i> Logar
+                            </button>
+                            <a href="./usuario/UsuarioForm.php" class="btn btn-secondary"><i class="fa-solid fa-user-plus"></i> Cadastrar-se</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
-
-</form>
+</div>
 
 
 <?php
